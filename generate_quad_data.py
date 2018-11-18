@@ -88,7 +88,7 @@ def main(argv):
 
     # Finally, output the script with embedded quadrangle data.
 
-    quads = sorted(quads, key=lambda q: q.scale)
+    quads = sorted(quads, key=lambda q: -q.scale)
 
     data = {
         'lat1': max(q.lat1 for q in quads),
@@ -100,9 +100,8 @@ def main(argv):
     data['lat'] = (data['lat1'] + data['lat2']) / 2.0
     data['lon'] = (data['lon1'] + data['lon2']) / 2.0
 
-    script = open('script.js.in').read()
-    script = script.replace('{{DATA}}', json.dumps(data, indent=4))
-    open('script.js', 'w').write(script)
+    j = json.dumps(data, indent=4)
+    open('quad_data.js', 'w').write('var quad_data = {};\n'.format(j))
 
 if __name__ == '__main__':
     main(sys.argv[1:])

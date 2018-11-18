@@ -1,10 +1,11 @@
 
-default: script.js
+default: 61171.html quad_data.js
 
-script.js: generate_html.py generate_shapes.py search_pages.html \
-		search_result.html script.js.in topomaps_all.csv
-	python generate_shapes.py
+61171.html: generate_html.py search_pages.html
 	python generate_html.py search_pages.html
+
+quad_data.js: generate_quad_data.py search_result.html topomaps_all.csv
+	python generate_quad_data.py
 
 search_pages.html: search_urls.txt
 	for path in $$(cat $<) ;do curl -s http://archive.library.nau.edu$$path; done > $@
