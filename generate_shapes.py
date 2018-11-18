@@ -8,7 +8,7 @@ import json
 import sys
 from collections import namedtuple
 
-Quad = namedtuple('Quad', 'name lat1 lon1 lat2 lon2 href')
+Quad = namedtuple('Quad', 'name scale lat1 lon1 lat2 lon2 url')
 
 def main(argv):
     parser = argparse.ArgumentParser(description='Generate shapes.')
@@ -37,8 +37,8 @@ def main(argv):
         else:
             continue
 
-        href = '{}.html'.format(item_id)
-        targets[key] = href
+        url = '{}.html'.format(item_id)
+        targets[key] = url
 
     r = csv.reader(open('topomaps_all.csv'))
     quads = []
@@ -47,15 +47,19 @@ def main(argv):
         key = (row[3], row[5])
         if key not in targets:
             continue
-        href = targets.pop(key)
+        url = targets.pop(key)
         name, scale = key
-        q = Quad(name, float(row[45]), float(row[46]),
-                 float(row[47]), float(row[48]), href)
+        q = Quad(name, scale, float(row[45]), float(row[46]),
+                 float(row[47]), float(row[48]), url)
         quads.append(q)
 
     if targets:
         print('Not found:')
         print(targets)
+
+    # TODO: turn Blue Spring 90 degrees
+
+    targets = sorted(targets, key=lambda target: -target.scale)
 
     data = {
         'lat1': max(q.lat1 for q in quads),

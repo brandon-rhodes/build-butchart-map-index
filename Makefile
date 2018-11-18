@@ -1,9 +1,12 @@
 
-default: topomaps_all.csv search_pages.html
+default: script.js
 
-index.html: search_pages.html generate.py
-	python generate.py $< > /tmp/output
-	mv /tmp/output $@
+script.js: generate_shapes.py search_result.html script.js.in topomaps_all.csv
+	python generate_shapes.py
+
+# search_pages.html generate_html.py
+# 	python generate_html.py $< > /tmp/output
+# 	mv /tmp/output $@
 
 search_pages.html: search_urls.txt
 	for path in $$(cat $<) ;do curl -s http://archive.library.nau.edu$$path; done > $@
