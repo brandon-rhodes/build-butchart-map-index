@@ -22,3 +22,7 @@ topomaps_all.csv: topomaps_all.zip
 # From https://www.usgs.gov/faqs/where-can-i-get-index-us-topo-maps
 topomaps_all.zip:
 	wget http://thor-f5.er.usgs.gov/ngtoc/metadata/misc/topomaps_all.zip
+
+sync:
+	cp 6*.html index.html *.js ~/rhodesmill.org/butchart
+	,push
