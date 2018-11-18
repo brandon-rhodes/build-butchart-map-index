@@ -1,4 +1,4 @@
-function start_seadragon(name, image_width, image_height) {
+function start_seadragon(name, image_width, image_height, rotation) {
     /* The CONTENTdm image server expresses scale as a percent, so
        "DMSCALE=100" requests tiles scaled 1:1 to the original image.
        Its own image viewer uses magnifications like "5,10,15,20,..."
@@ -45,6 +45,8 @@ function start_seadragon(name, image_width, image_height) {
         id: 'openseadragon1',
         prefixUrl: 'https://rawgit.com/fabiovalse/Hub/master/lib/openseadragon/images/',
         navigatorSizeRatio: 0.25,
+        showRotationControl: true,
+        degrees: rotation,
         tileSources: {
             width: Math.trunc(image_width * 1.28),
             height: Math.trunc(image_height * 1.28),

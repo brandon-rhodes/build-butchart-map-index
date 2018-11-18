@@ -23,10 +23,13 @@ def main(argv):
             item_id = line.split(' = ')[1].strip("\n;'")
             html = '<a href="{}.html">{}</a><br>\n'.format(item_id, title)
             index.append(html)
+            rotate = '0'
+            if item_id == '61188':
+                rotate = '270'
             with open('{}.html'.format(item_id), 'w') as f:
                 f.write(HTML.format(**locals()))
 
-    print(''.join(index))
+    #print(''.join(index))
 
 HTML = '''\
 <html><head>
@@ -38,7 +41,7 @@ HTML = '''\
 <script src="https://cdnjs.cloudflare.com/ajax/libs/openseadragon/2.4.0/openseadragon.min.js"></script>
 <script src="tiling.js"></script>
 <script>
-start_seadragon({item_id}, {width}, {height});
+start_seadragon({item_id}, {width}, {height}, {rotate});
 </script>
 '''
 
