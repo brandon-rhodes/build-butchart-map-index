@@ -42,7 +42,7 @@ function start_seadragon(name, image_width, image_height, rotation) {
     };
 
     OpenSeadragon({
-        id: 'openseadragon1',
+        id: 'map',
         prefixUrl: 'https://rawgit.com/fabiovalse/Hub/master/lib/openseadragon/images/',
         navigatorSizeRatio: 0.25,
         showRotationControl: true,
