@@ -1,5 +1,5 @@
 
-default: foo
+default: topomaps_all.csv search_pages.html
 
 index.html: search_pages.html generate.py
 	python generate.py $< > /tmp/output
@@ -13,9 +13,6 @@ search_urls.txt: search_result.html
 
 search_result.html:
 	curl 'http://archive.library.nau.edu/cdm/search/searchterm/butchart%20stillimage/field/all/mode/all/conn/and/display/200/order/nosort/ad/asc' > $@
-
-foo: topomaps_all.csv
-	echo hi
 
 topomaps_all.csv: topomaps_all.zip
 	unzip $<

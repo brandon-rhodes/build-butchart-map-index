@@ -14,7 +14,26 @@ def main(argv):
     parser = argparse.ArgumentParser(description='Generate shapes.')
     parser.parse_args(argv)
 
-    targets = {('Camp Verde', '125000')}
+    search_results = list(open('search_result.html'))
+    targets = []
+
+    for line in search_results:
+        if not 'results_tn_img' in line:
+            continue
+        name = line.split('alt="')[1].split(',')[0].split(' Quad')[0]
+        if name == 'Coconino Point NE':
+            name = 'Coconino Pt NE'
+        if 'Amos Point' in line:
+            targets.append((name, '24000'))
+        elif '15 minute' in line:
+            if '195' in line or '196' in line:
+                targets.append((name, '62500'))
+            else:
+                targets.append((name, '125000'))
+        elif '7.5 minute' in line:
+            targets.append((name, '24000'))
+
+    print(targets)
 
     r = csv.reader(open('topomaps_all.csv'))
     quads = []
@@ -30,9 +49,13 @@ def main(argv):
                  float(row[47]), float(row[48]))
         quads.append(q)
 
+    if targets:
+        print('Not found:')
+        print(targets)
+
     data = {
-        'lat1': min(q.lat1 for q in quads),
-        'lon1': min(q.lon1 for q in quads),
+        'lat1': max(q.lat1 for q in quads),
+        'lon1': max(q.lon1 for q in quads),
         'lat2': min(q.lat2 for q in quads),
         'lon2': min(q.lon2 for q in quads),
         'quads': list(q._asdict() for q in quads),
