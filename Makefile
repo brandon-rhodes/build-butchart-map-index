@@ -29,3 +29,14 @@ topomaps_all.zip:
 sync:
 	cp 6*.html index.html *.js ~/rhodesmill.org/butchart
 	,push
+
+hiking_log.txt: hiking_log_ids
+	mkdir -p hiking_logs
+	for id in $$(cat hiking_log_ids); do echo $$id; wget -nc -q -O "hiking_logs/$$id" "http://archive.library.nau.edu/digital/api/collections/cpa/items/$$id/false" || true; done
+	jq -r .text hiking_logs/* | sed 's/$$/\n/' | fold -s > $@
+
+hiking_log_ids: hiking_log_results.json
+	jq -r '.items[].itemId' $< | sort -n > $@
+
+hiking_log_results.json:
+	curl "http://archive.library.nau.edu/digital/api/search/collection/cpa/searchterm/Harvey%20Butchart's%20Hiking%20Log/page/1/maxRecords/200" > $@

@@ -1,4 +1,6 @@
-/hiking-logs/*.pdf
+/hiking_log.txt
+/hiking_log_results.json
+/hiking_logs
 /search_pages.html
 /search_result.html
 /search_urls.txt
