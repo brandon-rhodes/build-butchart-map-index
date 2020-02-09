@@ -7,14 +7,17 @@ default: 61171.html quad_data.js
 quad_data.js: generate_quad_data.py search_result.html topomaps_all.csv
 	python generate_quad_data.py
 
+# TODO: this now just pulls 404s, because after an upgrade of their
+# library software, NAU no longer uses the same URL scheme.
+
 search_pages.html: search_urls.txt
 	for path in $$(cat $<) ;do curl -s http://archive.library.nau.edu$$path; done > $@
 
-search_urls.txt: search_result.html
-	grep -P -o '(/cdm/singleitem/[^"]*)' $< | sort -u > $@
+search_urls.txt: search_result.json
+	jq -r '.items[].itemLink' $< | sort -u > $@
 
-search_result.html:
-	curl 'http://archive.library.nau.edu/cdm/search/searchterm/butchart%20stillimage/field/all/mode/all/conn/and/display/200/order/nosort/ad/asc' > $@
+search_result.json:
+	curl 'http://archive.library.nau.edu/digital/api/search/searchterm/butchart%20stillimage/field/all/mode/all/conn/and/maxRecords/200/display/200/order/nosort/ad/asc' > $@
 
 topomaps_all.csv: topomaps_all.zip
 	unzip $< $@ && touch $@
