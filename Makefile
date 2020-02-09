@@ -17,7 +17,7 @@ search_result.html:
 	curl 'http://archive.library.nau.edu/cdm/search/searchterm/butchart%20stillimage/field/all/mode/all/conn/and/display/200/order/nosort/ad/asc' > $@
 
 topomaps_all.csv: topomaps_all.zip
-	unzip $<
+	unzip $< $@ && touch $@
 
 # From https://www.usgs.gov/faqs/where-can-i-get-index-us-topo-maps
 topomaps_all.zip:
